@@ -1,0 +1,26 @@
+{
+  "name": "koa-rest-api",
+  "main": "app.js",
+  "scripts": {
+    "start": "NODE_ENV=production NODE_PATH=. node app.js",
+    "start:test": "NODE_ENV=test NODE_PATH=. node app.js",
+    "start:dev": "NODE_ENV=development NODE_PATH=. nodemon app.js",
+    "start:debug": "NODE_ENV=development NODE_PATH=. nodemon --inspect-brk app.js",
+    "test": "NODE_ENV=test NODE_PATH=. mocha --timeout 5000",
+    "mongod:start": "mongod --dbpath ./dbdata",
+    "mongod:stop": "mongod --shutdown"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.0",
+    "superagent": "^5.0.5"
+  },
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.5.5",
+    "mongoose-beautiful-unique-validation": "^7.1.1"
+  }
+}
