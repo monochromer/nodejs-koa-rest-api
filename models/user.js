@@ -5,6 +5,10 @@ const EMAIL_REGEXP = /^[-.\w]+@([\w-]+\.)+[\w-]{2,12}$/;
 
 const publicFields = ['email', 'displayName'];
 
+function modelTransform(doc, ret, options) {
+  return _.pick(ret, [...publicFields, '_id']);
+};
+
 const userSchema = mongoose.Schema({
   displayName: {
     type: String,
@@ -31,9 +35,10 @@ const userSchema = mongoose.Schema({
 }, {
   timestamps: true,
   toObject: {
-    transform(doc, ret, options) {
-      return _.pick(ret, [...publicFields, '_id']);
-    }
+    transform: modelTransform
+  },
+  toJSON: {
+    transform: modelTransform
   }
 });
 

@@ -28,10 +28,10 @@ usersRouter
       User.estimatedDocumentCount()
     ]);
     ctx.set('X-Count', count);
-    ctx.body = users.map(user => user.toObject());
+    ctx.body = users;
   })
   .get('/:id', async (ctx, next) => {
-    ctx.body = ctx.state.userById.toObject();
+    ctx.body = ctx.state.userById;
   })
   .del('/:id', async (ctx, next) => {
     await ctx.state.userById.remove();
@@ -43,13 +43,13 @@ usersRouter
     const user = ctx.state.userById;
     Object.assign(user, newUserData);
     await user.save();
-    ctx.body = user.toObject();
+    ctx.body = user;
   })
   .post('/', async (ctx, next) => {
     const { body } = ctx.request;
     const userData = _.pick(body, User.publicFields);
     const user = await User.create(userData);
-    ctx.body = user.toObject();
+    ctx.body = user;
   });
 
 module.exports = usersRouter;
