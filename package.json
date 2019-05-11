@@ -6,9 +6,10 @@
     "start:test": "NODE_ENV=test NODE_PATH=. node app.js",
     "start:dev": "NODE_ENV=development NODE_PATH=. nodemon app.js",
     "start:debug": "NODE_ENV=development NODE_PATH=. nodemon --inspect-brk app.js",
-    "test": "NODE_ENV=test NODE_PATH=. mocha --timeout 5000",
+    "test": "NODE_ENV=test NODE_PATH=. mocha --timeout 10000",
     "mongod:start": "mongod --dbpath ./dbdata",
-    "mongod:stop": "mongod --shutdown"
+    "mongod:stop": "mongod --shutdown",
+    "demo": "NODE_ENV=test NODE_PATH=. node test.js"
   },
   "devDependencies": {
     "mocha": "^6.1.4",
@@ -16,6 +17,7 @@
     "superagent": "^5.0.5"
   },
   "dependencies": {
+    "fs-extra": "^7.0.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",

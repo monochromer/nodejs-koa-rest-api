@@ -1,7 +1,8 @@
 const assert = require('assert');
-const util = require('util');
-// const cp = require('child_process');
-// const execFile = util.promisify(cp.execFile);
+const fs = require('fs');
+const fse = require('fs-extra');
+const path = require('path');
+const { execFile } = require('child_process');
 
 const agent = require('superagent');
 
@@ -17,6 +18,7 @@ describe('Users REST API', () => {
 
   let server;
   let mongod;
+  let dbFolder = path.join(process.cwd(), 'test', 'dbdata');
 
   const fixtureExistingUserData = {
     displayName: 'John Doe',
@@ -31,14 +33,23 @@ describe('Users REST API', () => {
   let existingUser;
 
   before(done => {
-    // mongod = execFile('mongod', ['--dbpath', './dbdata']);
-    server = app.listen(config.PORT, done);
+    if (!fse.existsSync(dbFolder)) {
+      fse.mkdirSync(dbFolder)
+    }
+    server = app.listen(config.PORT);
+    mongod = execFile('mongod', [`--dbpath=${dbFolder}`]);
+    mongoose.connection.once('connected', done);
   });
 
   after(done => {
-    // mongod && mongod.kill();
-    mongoose.disconnect();
-    server.close(done);
+    mongoose.connection
+      .dropDatabase()
+      .then(() => mongoose.disconnect())
+      .then(() => {
+        mongod.kill();
+        fse.removeSync(dbFolder);
+        server.close(done);
+      });
   });
 
   beforeEach(async () => {
